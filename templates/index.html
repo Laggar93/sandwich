@@ -1,0 +1,445 @@
+{% load static i18n %}
+{% get_current_language as LANGUAGE_CODE %}
+{% get_available_languages as LANGUAGES %}
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>{{ seo.title }}</title>
+    {% if seo.keywords %}
+    <meta name="keywords" content="{{ seo.keywords }}">
+    {% endif %}
+{% if seo.description %}
+    <meta name="description" content="{{ seo.description }}">
+{% endif %}
+    <meta property="og:title" content="{{ seo.title }}">
+{% if seo.description %}
+    <meta property="og:description" content="{{ seo.description }}">
+{% endif %}
+  <link rel="stylesheet" href="{% static './fonts/BenzinBold/stylesheet.css' %}"/>
+  <link rel="stylesheet" href="{% static './fonts/HelveticaNeueCyr/stylesheet.css' %}"/>
+  <link rel="stylesheet" href="{% static './swiper.css' %}"/>
+  <link rel="stylesheet" href="{% static './index.css' %}"/>
+</head>
+<body>
+<div class="root">
+  <header id="header" class="header">
+    <div class="container headerInner">
+      <div class="burger" id="burger">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+      <img alt="logo" class="logo" src="{% static './images/logo.svg' %}"/>
+      <nav class="navigation" id="navigation">
+        <a href="#about_us" class="navLink">{{ about.menu_title }}</a>
+        <a href="#buy" class="navLink">{{ product.menu_title }}</a>
+        <a href="#cooperation" class="navLink">{{ cooperation.menu_title }}</a>
+        <a href="#vacations" class="navLink">{{ vacancy.menu_title }}</a>
+        <a href="#contacts" class="navLink">{{ contacts.menu_title }}</a>
+      </nav>
+      <a href="{{ contacts.instagram }}" class="socialMedia" target="_blank">
+          <img alt="instagram" src="{% static './images/instagram.svg' %}"/></a>
+      <div class="languageContainer">
+        <div class="currentLanguage">
+{#            {% if request.LANGUAGE_CODE == 'kg' %}#}
+          <span><a href="{{ link_kg }}" class="language">KG</a>KG</span>
+{#            {% endif %}#}
+          <div class="languages">
+            <a href="{{ link_kz }}" class="language">KZ</a>
+            <a href="{{ link_en }}" class="language">EN</a>
+            <a href="{{ link_ru }}" class="language">RU</a>
+          </div>
+        </div>
+        <img alt="arrow" class="languageArrow" src="{% static './images/dropdownArrow.svg' %}"/>
+      </div>
+    </div>
+  </header>
+  <section class="intro" id="intro">
+    <img src="{% static './images/introMask.svg' %}" alt="mask" class="mask">
+    <img src="{% static './images/introMaskMobile.svg' %}" alt="mask" class="maskMobile">
+    <img alt="logo" class="logo" src="{% static './images/logo.svg' %}"/>
+    <div class="container introInner">
+      <div class="bannerContainer">
+        <img src="{{ intro.image_thumbnail.url }}" class="banner" alt="intro">
+        <img src="{% static './images/seal.svg' %}" class="seal" alt="seal">
+        <img src="{% static './images/star.svg' %}" class="star" alt="star">
+      </div>
+      <div>
+        <div class="titleContainer">
+          <h1 class="title">{{ intro.title }} <img src="{% static './images/star.svg' %}" class="star" alt="star"></h1>
+          <span class="titleShadow">{{ intro.title }}</span>
+        </div>
+          {% if intro.subtitle %}
+        <p class="subtitle">{{ intro.subtitle }}</p>
+          {% endif %}
+      {% if intro.description %}
+        <p class="description">
+          {{ intro.description|linebreaksbr }}
+        </p>
+      {% endif %}
+        <a class="button navLink" href="#cooperation">{{ intro.buy_button }}</a>
+      </div>
+    </div>
+    <img src="{% static './images/horizontalSplitBorder.svg' %}" class="border" alt="border">
+    <img src="{% static './images/roll.png' %}" class="roll" alt="roll">
+  </section>
+  <section class="aboutUs" id="about_us">
+    <div class="container">
+      <h2 class="title">{{ about.title }}</h2>
+        {% if about.text %}
+      <p class="description">
+        {{ about.text|linebreaksbr }}
+      </p>
+        {% endif %}
+      <img src="{% static './images/tag.svg' %}" alt="tag" class="tag">
+    </div>
+    <img src="{% static './images/egg1.svg' %}" alt="egg" class="egg">
+  </section>
+  <section class="composition" id="composition">
+    <div class="container compositionInner">
+      <h2 class="title">{{ compound.title }}</h2>
+      <div class="compositionSwiperContainer">
+        <div class="swiper compositionSwiper">
+          <div class="swiper-wrapper">
+              {% for i in compound.compound_items.all %}
+            <div class="swiper-slide">
+              <div class="image">
+                <img
+                    src="{{ i.image_thumbnail.url }}"
+                    alt="img"
+                    class="main"
+                >
+                <img src="{% static './images/rectangle.svg' %}" class="placeholder" alt="не удалять">
+                <img class="star" src="{% static './images/yellowStar.svg' %}" alt="star">
+              </div>
+              <h4 class="gridTitle">{{ i.title }}</h4>
+                {% if i.description %}
+              <p class="gridDescription">
+                {{ i.description|linebreaksbr }}
+              </p>
+            {% endif %}
+            </div>
+              {% endfor %}
+
+          </div>
+        </div>
+        <div class="swiper-button-prev"></div>
+        <div class="swiper-button-next"></div>
+      </div>
+    </div>
+    <img src="{% static './images/compositionMask.svg' %}" alt="mask" class="mask">
+    <img class="egg" src="{% static './images/eggKetchup.png' %}" alt="egg">
+    <img class="backStar left" src="{% static './images/yellowStar.svg' %}" alt="star">
+    <img class="backStar right" src="{% static './images/yellowStar.svg' %}" alt="star">
+  </section>
+  <section class="product" id="buy">
+    <div class="container">
+      <h2 class="title">{{ product.title }} <img src="{% static './images/yellowEgg.svg' %}" alt="egg"></h2>
+        {% if product.description %}
+      <p class="description">
+        {{ product.description|linebreaksbr }}
+      </p>
+        {% endif %}
+      <div class="swiperContainer">
+        <div class="swiper mySwiper">
+          <div class="swiper-wrapper">
+              {% for i in product.product_items.all %}
+            <div class="swiper-slide">
+              <div class="imgContainer">
+                <svg class="spark" width="342" height="338" viewBox="0 0 342 338" fill="none"
+                     xmlns="http://www.w3.org/2000/svg">
+                  <path fill-rule="evenodd" clip-rule="evenodd"
+                        d="M112.106 297.21C131.194 274.952 147.396 255.992 148.11 255.077C148.822 254.161 149.645 253.651 149.937 253.943C150.23 254.235 154.356 266.967 159.107 282.236C163.857 297.505 167.92 310.173 168.134 310.388C168.35 310.603 170.706 297.866 173.371 282.084C179.169 247.746 179.128 247.953 180.152 248.161C180.599 248.251 202.559 263.265 228.953 281.525C255.347 299.785 277.055 314.612 277.194 314.473C277.332 314.335 264.123 294.131 247.84 269.575C231.558 245.019 218.352 224.812 218.494 224.67C218.637 224.528 233.455 225.478 251.424 226.781C300.387 230.332 296.701 230.164 294.893 228.766C294.045 228.11 280.003 217.26 263.69 204.655C247.376 192.05 234.014 181.415 233.996 181.023C233.969 180.422 255.147 175.876 331.348 160.122C336.976 158.959 341.476 157.903 341.349 157.776C341.222 157.649 328.983 155.638 314.15 153.307C299.316 150.975 272.615 146.778 254.812 143.982C237.01 141.184 222.33 138.782 222.19 138.643C221.949 138.402 229.944 129.714 242.801 116.247C257.433 100.921 295.968 59.922 298.749 56.7215L301.834 53.1728L298.364 55.1567C296.455 56.2485 277.887 66.0788 257.102 77.0031C236.316 87.9267 212.195 100.609 203.5 105.185C194.804 109.762 187.592 113.227 187.474 112.887C187.356 112.545 195.09 87.5061 204.659 57.2431C214.228 26.9802 222.279 1.35924 222.548 0.308339C222.817 -0.742564 210.282 13.4724 194.693 31.8972C179.103 50.3221 161.454 71.1815 155.471 78.2513L144.594 91.1064L142.233 89.4492C140.132 87.9745 116.546 70.6106 92.8244 53.0749C88.1583 49.6256 76.8787 41.3161 67.7587 34.6093C58.6386 27.9032 50.7463 22.0793 50.2195 21.6671C49.2177 20.8835 55.9924 34.993 81.1715 86.1277C89.498 103.038 96.1308 117.053 95.911 117.273C95.6912 117.492 78.6812 115.605 58.1118 113.078C37.5416 110.551 20.7121 108.728 20.7121 109.027C20.7121 109.326 21.5335 110.205 22.5369 110.983C26.279 113.88 72.3854 155.385 72.3653 155.839C72.3545 156.099 56.2184 164.632 36.5074 174.802C16.7965 184.972 0.667188 193.476 0.664868 193.699C0.661786 193.921 17.9255 196.47 39.0294 199.362C60.1333 202.255 78.3781 204.852 79.5751 205.134C81.598 205.612 79.258 207.586 46.182 233.31C26.6199 248.523 10.4135 261.296 10.1675 261.693C9.91917 262.095 10.3626 262.219 11.1678 261.972C11.963 261.73 21.117 259.624 31.5097 257.294C41.9023 254.963 59.6874 250.965 71.0326 248.408C82.3778 245.851 92.0316 243.759 92.4866 243.759C92.9417 243.759 93.1298 244.366 92.9054 245.107C92.1596 247.569 76.9643 336.453 77.1841 337.072C77.3022 337.406 93.0172 319.468 112.106 297.21Z"
+                        fill="{{ i.color }}"/>
+                  <!--                TODO: в атрибут fill тега path передать цвет из бека-->
+                </svg>
+                <img class="image" src="{{ i.image_thumbnail.url }}" alt="image">
+              </div>
+              <div>
+                <h4 class="title">{{ i.title }} <img src="{% static './images/fire.svg' %}" alt="fire"></h4>
+                  {% if i.description %}
+                <p class="subtitle">{{ i.description }}</p>
+                  {% endif %}
+              </div>
+            </div>
+              {% endfor %}
+          </div>
+        </div>
+        <div class="swiper-button-prev"></div>
+        <div class="swiper-button-next"></div>
+      </div>
+    </div>
+    <img class="mask" src="{% static './images/meat.png' %}" alt="meat">
+  </section>
+  <section class="order" id="cooperation">
+    <div class="container orderInner">
+      <div>
+      {% if cooperation.title %}
+        <h2 class="title">
+          {{ cooperation.title|linebreaksbr }}
+        </h2>
+      {% endif %}
+        <a class="button" href="tel:{{ cooperation.sale_phone }}" style="width: max-content">{{ cooperation.sale_button }}</a>
+        <div class="info">
+          <p class="text" style="margin-bottom: 10px">{{ cooperation.discuss_title }}</p>
+
+            {% autoescape off %}{{ cooperation.discuss_list }}{% endautoescape %}
+
+        </div>
+      </div>
+      <div>
+        <div class="eggs">
+          <img src="{% static './images/eggs.svg' %}" alt="eggs">
+          <span>{{ cooperation.posm_title }}</span>
+        </div>
+        <img src="{{ cooperation.image_thumbnail.url }}" alt="image" class="mainImage">
+        <img src="{{ cooperation.second_image_thumbnail.url }}" alt="sandwich" class="sandwich">
+      </div>
+    </div>
+    <img src="{% static './images/redEgg.svg' %}" alt="" class="mask left">
+    <img src="{% static './images/redEgg.svg' %}" alt="" class="mask right">
+  </section>
+  <section class="work" id="vacations">
+    <div class="image">
+      <img class="main" src="{{ vacancy.image_thumbnail.url }}" alt="image">
+      <img class="border" src="{% static './images/verticalBorder.svg' %}" alt="">
+      <img class="border desktop" src="{% static './images/horizontalSplitBorder.svg' %}" alt="">
+    </div>
+    <form class="form">
+      <div class="inner">
+        <h2 class="title">{{ vacancy.title }}</h2>
+          {% if vacancy.description %}
+        <p class="description">
+          {{ vacancy.description|linebreaksbr }}
+        </p>
+          {% endif %}
+        <div>
+          <p class="label">Ф. И. О</p>
+          <input type="text" class="input">
+        </div>
+        <div>
+          <p class="label">Год рождения</p>
+          <div class="forms">
+            <select class="input">
+              <option value="" selected disabled>день</option>
+            </select>
+            <select class="input">
+              <option value="" selected disabled>месяц</option>
+            </select>
+            <select class="input">
+              <option value="" selected disabled>год</option>
+            </select>
+          </div>
+        </div>
+        <div>
+          <p class="label">Номер телефона</p>
+          <input type="text" class="input">
+        </div>
+        <div>
+          <p class="label">Укажите отдел:</p>
+          <select class="input"></select>
+        </div>
+        <button type="submit" class="button">{{ vacancy.send_button }}</button>
+      </div>
+      <div class="mask"><img src="{% static './images/redEgg.svg' %}" alt="egg"></div>
+      <img class="star" src="{% static './images/star.svg' %}" alt="egg">
+    </form>
+  </section>
+  <footer class="footer" id="contacts">
+    <div class="container grid">
+      <div class="certificates">
+        <img
+            src="{% static './images/certificateHalal1.svg' %}"
+            data-banner-src="{% static './images/photo_5402505518028803680_y.jpg' %}"
+            alt="certificate">
+        <img
+            src="{% static './images/certificateHalal2.svg' %}"
+            data-banner-src="{% static './images/photo_5402505518028803679_y.jpg' %}"
+            alt="certificate">
+<!--        TODO: атрибут src - ссылка на иконку-->
+<!--        TODO: атрибут data-banner-src - ссылка на большую картинку-->
+      </div>
+      <div class="navigation mobile">
+        <a class="link navLink" href="#composition">{{ compound.footer_title }}</a>
+        <a href="#about_us" class="link navLink">{{ about.menu_title }}</a>
+        <a href="#vacations" class="link navLink">{{ vacancy.menu_title }}</a>
+        <a href="#buy" class="link navLink">{{ product.footer_title }}</a>
+        <a class="link" href="{% static './Certificate.pdf' %}" target="_blank">{{ general.footer_title_cert }}</a>
+      </div>
+      <div class="navigation desktop">
+        <a class="link navLink" href="#composition" data-offset>{{ compound.footer_title }}</a>
+        <a href="#about_us" class="link navLink">{{ about.menu_title }}</a>
+        <a href="#vacations" class="link navLink">{{ vacancy.menu_title }}</a>
+      </div>
+      <div class="navigation desktop">
+        <a href="#buy" class="link navLink">{{ product.footer_title }}</a>
+        <a class="link" href="{% static './Certificate.pdf' %}" target="_blank">{{ general.footer_title_cert }}</a>
+      </div>
+      <div>
+        <p class="contactTitle">{{ contacts.title_call }}</p>
+        <a href="tel:{{ contacts.first_phone }}" class="contact">{{ contacts.first_phone }}</a>
+      </div>
+      <div>
+        <p class="contactTitle">{{ contacts.title_email }}</p>
+        <a href="mailto:{{ contacts.email }}" class="contact">{{ contacts.email }}</a>
+      </div>
+      <div>
+        <p class="contactTitle">{{ contacts.title_client }}</p>
+        <a href="tel:{{ contacts.second_phone }}" class="contact">{{ contacts.second_phone }}</a>
+      </div>
+      <div>
+        <p class="contactTitle">{{ general.title_work }}</p>
+        <p class="contact">{{ general.work_days }} {{ general.work_time }}</p>
+        <p class="copyright">{{ general.org_name }}</p>
+      </div>
+      <div>
+        <a class="button" href="https://disk.yandex.ru/i/Qlx5_rmJ97l5aQ" target="_blank">{{ general.brandbook_button }}</a>
+        <p class="tinyText">{{ general.title_media }}</p>
+      </div>
+      <div>
+        <p class="tinyText confidential">{{ general.title_confidence }}</p>
+      </div>
+    </div>
+  </footer>
+  <div class="topTop">{{ general.up_button }}</div>
+  <div class="modal">
+    <div class="close"><img src="{% static './images/cross.svg' %}" alt=""></div>
+    <img class="modalImg" src="" alt="">
+  </div>
+</div>
+
+<script src="{% static './swiper.js' %}"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const burger = document.getElementById('burger')
+    const navigation = document.getElementById('navigation')
+    const header = document.getElementById('header')
+
+    document.querySelectorAll('.navLink').forEach(el => {
+      el.addEventListener('click', scrollToEl)
+    })
+
+    burger.onclick = () => {
+      navigation.classList.toggle('show')
+    }
+
+    function scrollToEl(e) {
+      e.preventDefault()
+      if (!e.target.classList.contains('navLink')) return
+
+      navigation.classList.remove('show')
+
+      const el = document.querySelector(e.target.hash)
+      const aboutUsBorder = document.querySelector('.intro .border')
+
+      window.scrollTo({
+        top: el.offsetTop - (e.target.hash === '#about_us' ? aboutUsBorder.clientHeight + header.clientHeight : header.clientHeight),
+        behavior: 'smooth'
+      })
+    }
+
+    document.querySelector('.topTop').style.right = document.querySelector('.aboutUs .container').offsetLeft - 6 + 'px'
+    document.querySelector('.topTop').addEventListener('click', () => {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      })
+    })
+
+    document.querySelectorAll('.certificates img').forEach(el => {
+      el.addEventListener('click', e => {
+        console.log(e.target.dataset)
+        document.querySelector('.modal .modalImg').setAttribute('src', e.target.dataset.bannerSrc)
+        document.querySelector('.modal').classList.add('active')
+      })
+    })
+
+    document.querySelector('.modal .close').addEventListener('click', () => {
+      document.querySelector('.modal').classList.remove('active')
+    })
+
+    const aboutUsBorderHeight = document.querySelector('#intro .border').clientHeight
+    const aboutUsOffsetTop = document.getElementById('about_us').offsetTop - header.clientHeight - aboutUsBorderHeight
+    window.addEventListener('scroll', () => {
+      document.querySelector('.topTop').style.display = this.scrollY >= aboutUsOffsetTop ? 'block' : 'none'
+
+      if (this.scrollY > 100) {
+        return header.classList.add('scroll')
+      }
+      header.classList.remove('scroll')
+    })
+
+    document.addEventListener('click', e => {
+      if (!navigation.contains(e.target) && !burger.contains(e.target)) {
+        navigation.classList.remove('show')
+      }
+    })
+  })
+
+  const swiper = new Swiper(".mySwiper", {
+    slidesPerView: 1,
+    breakpoints: {
+      640: {
+        slidesPerView: 2,
+        slidesPerGroup: 2,
+        spaceBetween: 30,
+        grid: {
+          rows: 2,
+        },
+      },
+      1100: {
+        slidesPerView: 3,
+        slidesPerGroup: 3,
+        spaceBetween: 30,
+        grid: {
+          rows: 2,
+        },
+      }
+    },
+    grid: {
+      rows: 1,
+    },
+    spaceBetween: 20,
+    navigation: {
+      prevEl: '.swiperContainer .swiper-button-prev',
+      nextEl: '.swiperContainer .swiper-button-next',
+    }
+  });
+
+  const compositionSwiper = new Swiper(".compositionSwiper", {
+    slidesPerView: 1,
+    breakpoints: {
+      640: {
+        slidesPerView: 2,
+        slidesPerGroup: 2,
+        spaceBetween: 30,
+      },
+      1000: {
+        slidesPerView: 3,
+        slidesPerGroup: 3,
+        spaceBetween: 30,
+      },
+      1200: {
+        slidesPerView: 4,
+        slidesPerGroup: 4,
+        spaceBetween: 110,
+      }
+    },
+    spaceBetween: 20,
+    navigation: {
+      prevEl: '.compositionSwiperContainer .swiper-button-prev',
+      nextEl: '.compositionSwiperContainer .swiper-button-next',
+    }
+  });
+
+  if (window.innerWidth <= 640) {
+    swiper.destroy()
+    compositionSwiper.destroy()
+  }
+</script>
+</body>
+</html>

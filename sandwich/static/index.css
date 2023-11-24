@@ -300,7 +300,8 @@ html {
 
 .introInner.container .bannerContainer {
     position: relative;
-    width: 61%;
+    width: 42%;
+    flex-shrink: 0;
 }
 
 .introInner.container .bannerContainer .star {
@@ -674,8 +675,12 @@ html {
     .compositionSwiper .swiper-wrapper {
         overflow: auto;
         gap: 80px;
-        padding: 0 40px;
-        scrollbar-color: white;
+        padding: 0 40px 10px;
+    }
+
+    .compositionSwiper .swiper-wrapper::-webkit-scrollbar {
+        background: transparent;
+        height: 2px;
     }
 
     .compositionSwiper .swiper-wrapper::-webkit-scrollbar-thumb {
@@ -1126,6 +1131,11 @@ html {
     border: none;
     margin-bottom: 17px;
     padding: 0 clamp(8px, 0.9vw, 10px);
+    color: #0C0E14;
+}
+
+.work .form .input::placeholder {
+    color: #0C0E14;
 }
 
 .work .form .forms {

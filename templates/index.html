@@ -256,7 +256,7 @@
         </div>
         <div>
           <p class="label">Номер телефона</p>
-          <input type="text" class="input">
+          <input type="text" class="input" id="phone-mask" placeholder="+996">
         </div>
         <div>
           <p class="label">Укажите отдел:</p>
@@ -332,6 +332,7 @@
 </div>
 
 <script src="{% static './swiper.js' %}"></script>
+<script src="https://unpkg.com/imask"></script>
 <script>
   document.addEventListener('DOMContentLoaded', () => {
     const burger = document.getElementById('burger')
@@ -398,6 +399,13 @@
       }
     })
   })
+
+  IMask(
+  document.getElementById('phone-mask'),
+  {
+    mask: '+{996} 000 000000',
+  }
+)
 
   const swiper = new Swiper(".mySwiper", {
     slidesPerView: 1,

@@ -34,7 +34,7 @@
         <span></span>
       </div>
       <img alt="logo" class="logo" src="{% static './images/logo.svg' %}"/>
-      <nav class="navigation" id="navigation">
+      <nav class="navigation {% if request.LANGUAGE_CODE == 'en' or request.LANGUAGE_CODE == 'ru' %}largePadding{% endif %}" id="navigation">
         <a href="#about_us" class="navLink">{{ about.menu_title }}</a>
         <a href="#buy" class="navLink">{{ product.menu_title }}</a>
         <a href="#cooperation" class="navLink">{{ cooperation.menu_title }}</a>
@@ -45,13 +45,31 @@
           <img alt="instagram" src="{% static './images/instagram.svg' %}"/></a>
       <div class="languageContainer">
         <div class="currentLanguage">
-{#            {% if request.LANGUAGE_CODE == 'kg' %}#}
-          <span><a href="{{ link_kg }}" class="language">KG</a>KG</span>
-{#            {% endif %}#}
+            {% if request.LANGUAGE_CODE == 'ky' %}
+                <a style="color: white" class="language">KG</a>
+            {% endif %}
+          {% if request.LANGUAGE_CODE == 'kk' %}
+                <a style="color: white" class="language">KZ</a>
+            {% endif %}
+        {% if request.LANGUAGE_CODE == 'en' %}
+                <a style="color: white" class="language">EN</a>
+            {% endif %}
+          {% if request.LANGUAGE_CODE == 'ru' %}
+                <a style="color: white" class="language">RU</a>
+            {% endif %}
           <div class="languages">
-            <a href="{{ link_kz }}" class="language">KZ</a>
-            <a href="{{ link_en }}" class="language">EN</a>
-            <a href="{{ link_ru }}" class="language">RU</a>
+              {% if request.LANGUAGE_CODE != 'ky' %}
+                <a href="{{ link_kg }}"  class="language">KG</a>
+            {% endif %}
+          {% if request.LANGUAGE_CODE != 'kk' %}
+                <a href="{{ link_kz }}" class="language">KZ</a>
+            {% endif %}
+          {% if request.LANGUAGE_CODE != 'en' %}
+                <a href="{{ link_en }}" class="language">EN</a>
+            {% endif %}
+         {% if request.LANGUAGE_CODE != 'ru' %}
+                <a href="{{ link_ru }}" class="language">RU</a>
+            {% endif %}
           </div>
         </div>
         <img alt="arrow" class="languageArrow" src="{% static './images/dropdownArrow.svg' %}"/>
@@ -223,17 +241,18 @@
         </div>
         <div>
           <p class="label">Год рождения</p>
-          <div class="forms">
-            <select class="input">
-              <option value="" selected disabled>день</option>
-            </select>
-            <select class="input">
-              <option value="" selected disabled>месяц</option>
-            </select>
-            <select class="input">
-              <option value="" selected disabled>год</option>
-            </select>
-          </div>
+            <input type="date" class="input">
+{#          <div class="forms">#}
+{#            <select class="input">#}
+{#              <option value="" selected disabled>день</option>#}
+{#            </select>#}
+{#            <select class="input">#}
+{#              <option value="" selected disabled>месяц</option>#}
+{#            </select>#}
+{#            <select class="input">#}
+{#              <option value="" selected disabled>год</option>#}
+{#            </select>#}
+{#          </div>#}
         </div>
         <div>
           <p class="label">Номер телефона</p>

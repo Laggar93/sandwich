@@ -326,9 +326,25 @@
     </div>
   </footer>
   <div class="topTop">{{ general.up_button }}</div>
-  <div class="modal">
+ <div class="modal" id="certificateModal">
     <div class="close"><img src="{% static './images/cross.svg' %}" alt=""></div>
     <img class="modalImg" src="" alt="">
+  </div>
+  <div class="modal" id="formModalSuccess">
+{#     TODO: document.getElementById('formModalSuccess').classList.add('active') вызвать для success form#}
+    <div class="content">
+      <div class="close inner"><img src="{% static './images/crossBlack.svg' %}" alt=""></div>
+      <h4>Ваша заявка успешно отправлена</h4>
+      <div class="button close" style="margin-top: 16px">Закрыть</div>
+    </div>
+  </div>
+  <div class="modal" id="formModalError">
+      {#     TODO: document.getElementById('formModalError').classList.add('active') вызвать для error form#}
+    <div class="content">
+      <div class="close inner"><img src="{% static './images/crossBlack.svg' %}" alt=""></div>
+      <h4>Что то пошло не так</h4>
+      <div class="button close" style="margin-top: 16px">Закрыть</div>
+    </div>
   </div>
 </div>
 
@@ -373,14 +389,15 @@
 
     document.querySelectorAll('.certificates img').forEach(el => {
       el.addEventListener('click', e => {
-        console.log(e.target.dataset)
-        document.querySelector('.modal .modalImg').setAttribute('src', e.target.dataset.bannerSrc)
-        document.querySelector('.modal').classList.add('active')
+        document.querySelector('#certificateModal .modalImg').setAttribute('src', e.target.dataset.bannerSrc)
+        document.getElementById('certificateModal').classList.add('active')
       })
     })
 
-    document.querySelector('.modal .close').addEventListener('click', () => {
-      document.querySelector('.modal').classList.remove('active')
+    document.querySelectorAll('.modal .close').forEach(el => {
+      el.addEventListener('click', (e) => {
+        e.target.closest('.modal').classList.remove('active')
+      })
     })
 
     const aboutUsBorderHeight = document.querySelector('#intro .border').clientHeight

@@ -6,6 +6,8 @@ from django.utils.html import format_html
 from imagekit.models import ImageSpecField
 from imagekit.processors import ResizeToFill
 from colorfield.fields import ColorField
+from django.utils.safestring import mark_safe
+
 
 
 class seo(models.Model):
@@ -119,12 +121,13 @@ class product(models.Model):
 class product_items(models.Model):
 
     order = models.IntegerField('Порядок')
-    product = models.ForeignKey(product, on_delete=models.CASCADE, related_name='product_items')
+    # product = models.ForeignKey(product, on_delete=models.CASCADE, related_name='product_items')
 
     title = models.CharField('Заголовок', max_length=1000)
     description = models.TextField('Описание', blank=True)
+    spicy_boolean = models.BooleanField('Пометка для острых продуктов', default=False, blank=True)
 
-    image = models.ImageField('Изображение', upload_to=get_file_path)
+    image = models.ImageField('Изображение', upload_to=get_file_path, blank=True)
     image_thumbnail = ImageSpecField(source='image',
                                      processors=[ResizeToFill(325, 717)],
                                      format='PNG',
@@ -136,13 +139,20 @@ class product_items(models.Model):
 
     class Meta:
         ordering = ['order']
-        verbose_name = 'Продукт'
-        verbose_name_plural = 'Продукты'
+        verbose_name = 'Продукция (товары)'
+        verbose_name_plural = 'Продукция (товары)'
 
     @cached_property
     def display_image(self):
         return format_html('<img src="{img}" width="300">', img=self.image.url)
     display_image.short_description = 'Предпросмотр изображения'
+
+    def image_tag(self):
+        if self.image:
+            return mark_safe('<img src="%s" style="width: 45px; height:45px;" />' % self.image.url)
+        else:
+            return 'No Image Found'
+    image_tag.short_description = 'Image'
 
 
 class cooperation(models.Model):
@@ -248,3 +258,16 @@ class general(models.Model):
     class Meta:
         verbose_name = 'Общее'
         verbose_name_plural = 'Общее'
+
+
+class model_form(models.Model):
+    name = models.CharField('ФИО', max_length=1000)
+    year = models.DateField('Дата')
+    phone = models.CharField('Телефон', max_length=1000)
+
+    def __str__(self):
+        return 'Заявки'
+
+    class Meta:
+        verbose_name = 'Заявки'
+        verbose_name_plural = 'Заявки'

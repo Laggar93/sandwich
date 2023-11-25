@@ -1,6 +1,7 @@
 from django.contrib import admin, auth
 admin.site.unregister(auth.models.User)
 admin.site.unregister(auth.models.Group)
+from django.utils.html import format_html
 from adminsortable2.admin import SortableAdminMixin, SortableInlineAdminMixin
 from modeltranslation.admin import TranslationAdmin, TranslationStackedInline
 from .models import *
@@ -196,10 +197,12 @@ class compound_admin(TranslationAdmin):
         return False
 
 
-class product_items_admin(SortableInlineAdminMixin, TranslationStackedInline):
+class product_items_admin(SortableAdminMixin, TranslationAdmin):
     model = product_items
     ordering = ('order',)
     extra = 0
+
+    list_display = ['title', 'description', 'color', 'image_tag',]
     fieldsets = (
         ('Заголовок', {
             'fields': ('title',),
@@ -208,7 +211,7 @@ class product_items_admin(SortableInlineAdminMixin, TranslationStackedInline):
             'fields': ('description',),
         }),
         ('Изображение', {
-            'fields': ('image', 'display_image', 'color'),
+            'fields': ('image', 'display_image', 'color', 'spicy_boolean',),
         }),
     )
     readonly_fields = ('display_image',)
@@ -216,7 +219,6 @@ class product_items_admin(SortableInlineAdminMixin, TranslationStackedInline):
 
 
 class product_admin(TranslationAdmin):
-    inlines = [product_items_admin]
     save_on_top = True
     fieldsets = (
         ('Наименование в верхнем меню', {
@@ -281,7 +283,9 @@ admin.site.register(seo, seo_admin)
 admin.site.register(about, about_admin)
 admin.site.register(compound, compound_admin)
 admin.site.register(product, product_admin)
+admin.site.register(product_items, product_items_admin)
 admin.site.register(cooperation, cooperation_admin)
 admin.site.register(vacancy, vacancy_admin)
 admin.site.register(contacts, contacts_admin)
 admin.site.register(general, general_admin)
+admin.site.register(model_form)

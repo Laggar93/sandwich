@@ -23,6 +23,10 @@
   <link rel="stylesheet" href="{% static './fonts/HelveticaNeueCyr/stylesheet.css' %}"/>
   <link rel="stylesheet" href="{% static './swiper.css' %}"/>
   <link rel="stylesheet" href="{% static './index.css' %}"/>
+<script
+  src="https://code.jquery.com/jquery-2.2.4.min.js"
+  integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
+  crossorigin="anonymous"></script>
 </head>
 <body>
 <div class="root">
@@ -127,7 +131,7 @@
             <div class="swiper-slide">
               <div class="image">
                 <img
-                    src="{{ i.image_thumbnail.url }}"
+                    src="{{ i.image.url }}"
                     alt="img"
                     class="main"
                 >
@@ -165,7 +169,7 @@
       <div class="swiperContainer">
         <div class="swiper mySwiper">
           <div class="swiper-wrapper">
-              {% for i in product.product_items.all %}
+              {% for i in product_items %}
             <div class="swiper-slide">
               <div class="imgContainer">
                 <svg class="spark" width="342" height="338" viewBox="0 0 342 338" fill="none"
@@ -175,10 +179,12 @@
                         fill="{{ i.color }}"/>
                   <!--                TODO: в атрибут fill тега path передать цвет из бека-->
                 </svg>
-                <img class="image" src="{{ i.image_thumbnail.url }}" alt="image">
+                  {% if i.image %}
+                <img class="image" src="{{ i.image.url }}" alt="image">
+                  {% endif %}
               </div>
               <div>
-                <h4 class="title">{{ i.title }} <img src="{% static './images/fire.svg' %}" alt="fire"></h4>
+                <h4 class="title">{{ i.title }} {% if i.spicy_boolean %}<img src="{% static './images/fire.svg' %}" alt="fire">{% endif %}</h4>
                   {% if i.description %}
                 <p class="subtitle">{{ i.description }}</p>
                   {% endif %}
@@ -214,8 +220,8 @@
           <img src="{% static './images/eggs.svg' %}" alt="eggs">
           <span>{{ cooperation.posm_title }}</span>
         </div>
-        <img src="{{ cooperation.image_thumbnail.url }}" alt="image" class="mainImage">
-        <img src="{{ cooperation.second_image_thumbnail.url }}" alt="sandwich" class="sandwich">
+        <img src="{{ cooperation.image.url }}" alt="image" class="mainImage">
+        <img src="{{ cooperation.second_image.url }}" alt="sandwich" class="sandwich">
       </div>
     </div>
     <img src="{% static './images/redEgg.svg' %}" alt="" class="mask left">
@@ -223,11 +229,12 @@
   </section>
   <section class="work" id="vacations">
     <div class="image">
-      <img class="main" src="{{ vacancy.image_thumbnail.url }}" alt="image">
+      <img class="main" src="{{ vacancy.image.url }}" alt="image">
       <img class="border" src="{% static './images/verticalBorder.svg' %}" alt="">
       <img class="border desktop" src="{% static './images/horizontalSplitBorder.svg' %}" alt="">
     </div>
-    <form class="form">
+    <form class="form" id="form" method="post" action="{% url 'form' %}" enctype="multipart/form-data">
+    {% csrf_token %}
       <div class="inner">
         <h2 class="title">{{ vacancy.title }}</h2>
           {% if vacancy.description %}
@@ -237,30 +244,24 @@
           {% endif %}
         <div>
           <p class="label">Ф. И. О</p>
-          <input type="text" class="input">
+          <input type="text" class="input" name="name">
         </div>
         <div>
           <p class="label">Год рождения</p>
-            <input type="date" class="input">
-{#          <div class="forms">#}
-{#            <select class="input">#}
-{#              <option value="" selected disabled>день</option>#}
-{#            </select>#}
-{#            <select class="input">#}
-{#              <option value="" selected disabled>месяц</option>#}
-{#            </select>#}
-{#            <select class="input">#}
-{#              <option value="" selected disabled>год</option>#}
-{#            </select>#}
-{#          </div>#}
+            <input type="date" class="input" name="date">
         </div>
         <div>
           <p class="label">Номер телефона</p>
-          <input type="text" class="input" id="phone-mask" placeholder="+996">
+          <input type="text" class="input" id="phone-mask" name="phone" placeholder="+996">
         </div>
         <div>
           <p class="label">Укажите отдел:</p>
-          <select class="input"></select>
+          <select class="input" id="departments">
+              {% for x, y in form.department.field.choices %}
+            <option value="{{x}}">{{y}}</option>
+          {% endfor %}
+
+          </select>
         </div>
         <button type="submit" class="button">{{ vacancy.send_button }}</button>
       </div>

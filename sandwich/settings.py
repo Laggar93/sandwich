@@ -199,3 +199,17 @@ CKEDITOR_CONFIGS = {
         ]
     },
 }
+
+
+# mail_host = 'smtp.mail.ru'
+# mail_port = 2525
+# mail_login = 'noreply.form@mail.ru'
+# mail_password = 'y64CuQt8AcJfz0DQzbHM'
+# mail_use_tls = True
+
+
+EMAIL_HOST = 'smtp.mail.ru'
+EMAIL_PORT = 2525
+EMAIL_HOST_USER = 'noreply.form@mail.ru'
+EMAIL_HOST_PASSWORD = 'y64CuQt8AcJfz0DQzbHM'
+EMAIL_USE_TLS = True

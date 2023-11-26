@@ -261,12 +261,15 @@ class general(models.Model):
 
 
 class model_form(models.Model):
+    CHOICES = [('1', 'Первый отдел'),
+               ('2', 'Второй отдел'), ('3', 'Третий отдел')]
     name = models.CharField('ФИО', max_length=1000)
-    year = models.DateField('Дата')
     phone = models.CharField('Телефон', max_length=1000)
+    date = models.DateField('Дата', null=True)
+    department = models.CharField('Отдел', choices=CHOICES, default='1', max_length=1000)
 
     def __str__(self):
-        return 'Заявки'
+        return self.name
 
     class Meta:
         verbose_name = 'Заявки'

@@ -5,12 +5,12 @@ from django.conf import settings
 # from vector.config import send_mail
 
 
-def send_excursion(name, date, phone, department):
+def send_excursion(name, phone, date, department):
     name = re.sub('<[^<]+?>', '', name)
     phone = re.sub('<[^<]+?>', '', phone)
-    date = re.sub('<[^<]+?>', '', date)
-    department = re.sub('<[^<]+?>', '', department)
-    body = '<p>Имя: ' + name + '</p><p>Телефон: <a href="tel:' + phone + '">' + date + '</a></p><p>Электронная почта: <a href="mailto:' + department + '">' + '</p>'
+    date = date
+    department = department
+    body = f'Имя - {name}\n Телефон - {phone}\n Дата - {date} - Отдел - {department}'
     send_msg = EmailMessage('Сообщение с сайта', body, settings.EMAIL_HOST_USER, ['ulikfr1d@gmail.com'])
     send_msg.content_subtype = "html"
     send_msg.send()

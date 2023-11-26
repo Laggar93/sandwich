@@ -233,8 +233,9 @@
       <img class="border" src="{% static './images/verticalBorder.svg' %}" alt="">
       <img class="border desktop" src="{% static './images/horizontalSplitBorder.svg' %}" alt="">
     </div>
-    <form class="form" id="form" method="post" action="{% url 'form' %}" enctype="multipart/form-data">
+    <form class="form" method="post"  action="{% url 'form' %}" enctype="multipart/form-data">
     {% csrf_token %}
+{#        {{ form.as_p }}#}
       <div class="inner">
         <h2 class="title">{{ vacancy.title }}</h2>
           {% if vacancy.description %}
@@ -256,7 +257,7 @@
         </div>
         <div>
           <p class="label">Укажите отдел:</p>
-          <select class="input" id="departments">
+          <select class="input" id="department">
               {% for x, y in form.department.field.choices %}
             <option value="{{x}}">{{y}}</option>
           {% endfor %}
@@ -265,8 +266,9 @@
         </div>
         <button type="submit" class="button">{{ vacancy.send_button }}</button>
       </div>
-      <div class="mask"><img src="{% static './images/redEgg.svg' %}" alt="egg"></div>
-      <img class="star" src="{% static './images/star.svg' %}" alt="egg">
+{#      <div class="mask"><img src="{% static './images/redEgg.svg' %}" alt="egg"></div>#}
+{#      <img class="star" src="{% static './images/star.svg' %}" alt="egg">#}
+
     </form>
   </section>
   <footer class="footer" id="contacts">

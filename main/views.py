@@ -1,4 +1,4 @@
-from django.http import HttpResponseNotFound
+from django.http import HttpResponseNotFound, HttpResponse
 from django.shortcuts import render
 
 from sandwich.sendform import send_excursion
@@ -34,12 +34,22 @@ def main_view(request):
 
 
 def form_view(request):
-    if request.is_ajax() and request.POST:
+    if request.method == 'POST':
+    # if request.is_ajax() and request.POST:
         form = main_form(request.POST)
         if form.is_valid():
             name = form.cleaned_data['name']
             phone = form.cleaned_data['phone']
             date = form.cleaned_data['date']
-            department = form.cleaned_data['message']
+            department = form.cleaned_data.fromkeys(form.department.choices)['department']
             return send_excursion(name, phone, date, department)
     return HttpResponseNotFound("")
+            # department = form.cleaned_data['department']
+
+            # emp = model_form.objects.create(name=name, phone=phone, date=date)
+            # date = form.cleaned_data['date']
+            # department = form.cleaned_data['message']
+    #         emp.save()
+    #         return HttpResponse('SAVED!')
+    # form = main_form()
+    # return HttpResponse("haha")

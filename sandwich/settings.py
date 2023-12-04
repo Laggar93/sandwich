@@ -206,7 +206,7 @@ CKEDITOR_CONFIGS = {
 # mail_login = 'noreply.form@mail.ru'
 # mail_password = 'y64CuQt8AcJfz0DQzbHM'
 # mail_use_tls = True
-
+hello = 'hello'
 
 EMAIL_HOST = 'smtp.mail.ru'
 EMAIL_PORT = 2525

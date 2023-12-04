@@ -251,6 +251,8 @@ class general(models.Model):
     title_media = models.CharField('Заголовок "Для медийного сотрудничества"', max_length=1000)
     title_confidence = models.CharField('Заголовок "Соглашение о конфиденциальности"', max_length=1000)
     up_button = models.CharField('Кнопка "Наверх"', max_length=1000)
+    success_form = models.CharField('Сообщение об успешной отправке формы', max_length=1000)
+    error_form = models.CharField('Сообщение об ошибке отправки формы', max_length=1000)
 
     def __str__(self):
         return 'Общее'
@@ -260,13 +262,36 @@ class general(models.Model):
         verbose_name_plural = 'Общее'
 
 
+class form_translation(models.Model):
+    name = models.CharField('ФИО', max_length=1000)
+    year = models.CharField('Год рождения', max_length=1000)
+    phone = models.CharField('Номер телефона', max_length=1000)
+    department = models.CharField('Укажите отдел', max_length=1000)
+
+    def __str__(self):
+        return 'Переводы для формы'
+
+    class Meta:
+        verbose_name = 'Переводы для формы'
+        verbose_name_plural = 'Переводы для формы'
+
+
+class departments(models.Model):
+    department = models.CharField('Отдел', max_length=1000)
+
+    def __str__(self):
+        return self.department
+
+    class Meta:
+        verbose_name = 'Отдел'
+        verbose_name_plural = 'Отделы'
+
+
 class model_form(models.Model):
-    CHOICES = [('1', 'Первый отдел'),
-               ('2', 'Второй отдел'), ('3', 'Третий отдел')]
     name = models.CharField('ФИО', max_length=1000)
     phone = models.CharField('Телефон', max_length=1000)
     date = models.DateField('Дата', null=True)
-    department = models.CharField('Отдел', choices=CHOICES, default='1', max_length=1000)
+    department = models.ForeignKey(departments, verbose_name='Отдел', on_delete=models.CASCADE, null=True, related_name='deps')
 
     def __str__(self):
         return self.name

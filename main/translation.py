@@ -83,10 +83,26 @@ class VacancyTranslationOptions(TranslationOptions):
 
 
 class GeneralTranslationOptions(TranslationOptions):
-    fields = ('footer_title_cert', 'title_work', 'work_days', 'org_name', 'brandbook_button', 'title_media', 'title_confidence', 'up_button',)
-    required_languages = {'en': ('footer_title_cert', 'title_work', 'work_days', 'org_name', 'brandbook_button', 'title_media', 'title_confidence', 'up_button',),
-                          'ru': ('footer_title_cert', 'title_work', 'work_days', 'org_name', 'brandbook_button', 'title_media', 'title_confidence', 'up_button',),
-                          'kk': ('footer_title_cert', 'title_work', 'work_days', 'org_name', 'brandbook_button', 'title_media', 'title_confidence', 'up_button',),
+    fields = ('footer_title_cert', 'title_work', 'work_days', 'org_name', 'brandbook_button', 'title_media', 'title_confidence', 'up_button', 'success_form', 'error_form',)
+    required_languages = {'en': ('footer_title_cert', 'title_work', 'work_days', 'org_name', 'brandbook_button', 'title_media', 'title_confidence', 'up_button', 'success_form', 'error_form',),
+                          'ru': ('footer_title_cert', 'title_work', 'work_days', 'org_name', 'brandbook_button', 'title_media', 'title_confidence', 'up_button', 'success_form', 'error_form',),
+                          'kk': ('footer_title_cert', 'title_work', 'work_days', 'org_name', 'brandbook_button', 'title_media', 'title_confidence', 'up_button', 'success_form', 'error_form',),
+                          }
+
+
+class FormTranslationOptions(TranslationOptions):
+    fields = ('name', 'year', 'phone', 'department',)
+    required_languages = {'en': ('name', 'year', 'phone', 'department',),
+                          'ru': ('name', 'year', 'phone', 'department',),
+                          'kk': ('name', 'year', 'phone', 'department',),
+                          }
+
+
+class DepartmentsTranslationOptions(TranslationOptions):
+    fields = ('department',)
+    required_languages = {'en': ('department',),
+                          'ru': ('department',),
+                          'kk': ('department',),
                           }
 
 
@@ -101,3 +117,5 @@ translator.register(cooperation, CooperationTranslationOptions)
 translator.register(contacts, ContactsTranslationOptions)
 translator.register(vacancy, VacancyTranslationOptions)
 translator.register(general, GeneralTranslationOptions)
+translator.register(form_translation, FormTranslationOptions)
+translator.register(departments, DepartmentsTranslationOptions)

@@ -270,12 +270,54 @@ class general_admin(TranslationAdmin):
         ('Кнопка "Наверх"', {
             'fields': ('up_button',),
         }),
+        ('Сообщение об успешной отправке заявки', {
+            'fields': ('success_form',),
+        }),
+        ('Сообщение об ошибке отправки заявки', {
+            'fields': ('error_form',),
+        }),
 
     )
     def has_add_permission(self, request, obj=None):
         return False
     def has_delete_permission(self, request, obj=None):
         return False
+
+
+class form_admin(TranslationAdmin):
+    save_on_top = True
+    fieldsets = (
+        ('ФИО', {
+            'fields': ('name',),
+        }),
+        ('Год рождения', {
+            'fields': ('year',),
+        }),
+        ('Номер телефона', {
+            'fields': ('phone',),
+        }),
+        ('Укажите отдел', {
+            'fields': ('department',),
+        }),
+
+    )
+    def has_add_permission(self, request, obj=None):
+        return False
+    def has_delete_permission(self, request, obj=None):
+        return False
+
+
+class departments_admin(TranslationAdmin):
+    save_on_top = True
+
+
+class ModelFormAdmin(admin.ModelAdmin):
+    list_display = ('name', 'phone', 'date', 'get_department')  # Add 'get_department' to display department name
+
+    def get_department(self, obj):
+        return obj.department.department if obj.department else '-'  # Show department name or '-' if not selected
+
+    get_department.short_description = 'Department'
 
 
 admin.site.register(intro, intro_admin)
@@ -288,4 +330,6 @@ admin.site.register(cooperation, cooperation_admin)
 admin.site.register(vacancy, vacancy_admin)
 admin.site.register(contacts, contacts_admin)
 admin.site.register(general, general_admin)
-admin.site.register(model_form)
+admin.site.register(model_form, ModelFormAdmin)
+admin.site.register(form_translation, form_admin)
+admin.site.register(departments, departments_admin)

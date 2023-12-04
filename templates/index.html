@@ -233,9 +233,8 @@
       <img class="border" src="{% static './images/verticalBorder.svg' %}" alt="">
       <img class="border desktop" src="{% static './images/horizontalSplitBorder.svg' %}" alt="">
     </div>
-    <form class="form" method="post"  action="{% url 'form' %}" enctype="multipart/form-data">
+    <form class="form" method="post"  action="{% url 'form' %}" enctype="multipart/form-data" id="MyForm">
     {% csrf_token %}
-{#        {{ form.as_p }}#}
       <div class="inner">
         <h2 class="title">{{ vacancy.title }}</h2>
           {% if vacancy.description %}
@@ -244,22 +243,22 @@
         </p>
           {% endif %}
         <div>
-          <p class="label">Ф. И. О</p>
+          <p class="label">{{ form_translation.name }}</p>
           <input type="text" class="input" name="name">
         </div>
         <div>
-          <p class="label">Год рождения</p>
+          <p class="label">{{ form_translation.year }}</p>
             <input type="date" class="input" name="date">
         </div>
         <div>
-          <p class="label">Номер телефона</p>
+          <p class="label">{{ form_translation.phone }}</p>
           <input type="text" class="input" id="phone-mask" name="phone" placeholder="+996">
         </div>
         <div>
-          <p class="label">Укажите отдел:</p>
-          <select class="input" id="department">
-              {% for x, y in form.department.field.choices %}
-            <option value="{{x}}">{{y}}</option>
+          <p class="label">{{ form_translation.department }}:</p>
+          <select class="input" id="department" name="department">
+              {% for i in form.department.field.queryset %}
+            <option value="{{i.id}}">{{i.department}}</option>
           {% endfor %}
 
           </select>
@@ -270,6 +269,7 @@
 {#      <img class="star" src="{% static './images/star.svg' %}" alt="egg">#}
 
     </form>
+
   </section>
   <footer class="footer" id="contacts">
     <div class="container grid">
@@ -332,11 +332,12 @@
     <div class="close"><img src="{% static './images/cross.svg' %}" alt=""></div>
     <img class="modalImg" src="" alt="">
   </div>
+
   <div class="modal" id="formModalSuccess">
 {#     TODO: document.getElementById('formModalSuccess').classList.add('active') вызвать для success form#}
     <div class="content">
       <div class="close inner"><img src="{% static './images/crossBlack.svg' %}" alt=""></div>
-      <h4>Ваша заявка успешно отправлена</h4>
+      <h4>{{ general.success_form }}</h4>
       <div class="button close" style="margin-top: 16px">Закрыть</div>
     </div>
   </div>
@@ -344,7 +345,7 @@
       {#     TODO: document.getElementById('formModalError').classList.add('active') вызвать для error form#}
     <div class="content">
       <div class="close inner"><img src="{% static './images/crossBlack.svg' %}" alt=""></div>
-      <h4>Что то пошло не так</h4>
+      <h4>{{ general.error_form }}</h4>
       <div class="button close" style="margin-top: 16px">Закрыть</div>
     </div>
   </div>
@@ -353,6 +354,63 @@
 <script src="{% static './swiper.js' %}"></script>
 <script src="https://unpkg.com/imask"></script>
 <script>
+
+document.addEventListener("DOMContentLoaded", function() {
+    const formModalSuccess = document.getElementById('formModalSuccess');
+    const closeButton = formModalSuccess.querySelector('.close');
+
+    closeButton.addEventListener('click', function() {
+        formModalSuccess.classList.remove('active');
+    });
+
+    const form = document.getElementById('MyForm'); // Замените 'yourFormId' на ID вашей формы
+
+    form.addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        fetch('/form/', {  // Замените '/your-form-endpoint/' на путь к вашему представлению form_view
+            method: 'POST',
+            body: new FormData(form),
+        })
+        .then(response => response.text())
+        .then(data => {
+            form.reset(); // Очистка формы после успешной отправки
+            formModalSuccess.classList.add('active'); // Показать модальное окно при успешной отправке
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            formModalError.classList.add('active'); // Показать модальное окно при ошибке
+        });
+    });
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   document.addEventListener('DOMContentLoaded', () => {
     const burger = document.getElementById('burger')
     const navigation = document.getElementById('navigation')
@@ -487,6 +545,7 @@
     swiper.destroy()
     compositionSwiper.destroy()
   }
+
 </script>
 </body>
 </html>
